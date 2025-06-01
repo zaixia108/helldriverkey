@@ -28,7 +28,7 @@ jobs:
           pip install pyinstaller
       - name: Compile with pyinstaller
         run: |
-          python -m pyinstaller -D --add-data "hd.onnx" hd.py
+          pyinstaller -D --add-data "hd.onnx" hd.py
       - name: create zip
         run: |
           powershell Compress-Archive -Path dist\* -DestinationPath dist\hd.zip
