@@ -9,3 +9,5 @@
 /img
 /seg_cap
 /seg_label
+/.idea
+/.venv
