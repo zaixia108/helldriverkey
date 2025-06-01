@@ -11,3 +11,4 @@
 /seg_label
 /.idea
 /.venv
+/hd_old.onnx
