@@ -8,6 +8,12 @@ from EasYoloD import easyolo
 import ctypes
 import shutil
 
+
+# pyinstaller 打包之后复制模型到外部
+if os.path.exists('_internal'):
+    shutil.copy('_internal/hd.onnx', 'hd.onnx')
+
+
 easyolo.init('onnxdml', False)
 model = easyolo.Model()
 model.load('hd.onnx', 0.3, 0.5, ['up', 'down', 'left', 'right'])
@@ -19,10 +25,6 @@ VK_CODE = {
     'd': 0x44,
 }
 
-
-# pyinstaller 打包之后复制模型到外部
-if os.path.exists('_internal'):
-    shutil.copy('_internal/hd.onnx', 'hd.onnx')
 
 def key_press(keys):
     """
