@@ -1,3 +1,4 @@
+import os.path
 import time
 import keyboard
 import mss
@@ -5,6 +6,7 @@ import cv2
 import numpy as np
 from EasYoloD import easyolo
 import ctypes
+import shutil
 
 easyolo.init('onnxdml', False)
 model = easyolo.Model()
@@ -16,6 +18,11 @@ VK_CODE = {
     's': 0x53,
     'd': 0x44,
 }
+
+
+# pyinstaller 打包之后复制模型到外部
+if os.path.exists('_internal'):
+    shutil.copy('_internal/hd.onnx', 'hd.onnx')
 
 def key_press(keys):
     """
