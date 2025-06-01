@@ -1,0 +1,40 @@
+name: Build with Nuitka
+
+on:
+    push:
+        branches:
+        - main
+    pull_request:
+        branches:
+        - main
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Compile with Nuitka
+        run: |
+          python -m nuitka --standalone --include-data-file=hd.onnx=hd.onnx hd.py
+      - name: create zip
+        run: |
+          powershell Compress-Archive -Path hd.dist\* -DestinationPath hd.dist\hd.zip
+      - name: Create Release and Upload Artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0
+          files: hd.dist/hd.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
