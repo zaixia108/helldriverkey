@@ -54,21 +54,21 @@ scr = get_screenshot()
 w, h = scr.shape[1], scr.shape[0]
 if w == 1920:
     y1 = 75
-    y2 = 440
+    y2 = 492
     x = 350
 elif w == 2560:
     y1 = 100
-    y2 = 600
+    y2 = 672
     x = 400
 elif w == 3840:
     y1 = 150
-    y2 = 800
+    y2 = 900
     x = 600
 else:
     raise ValueError('Wrong width')
 
 tar = scr[y1:y2, 50:x]
-step = (y2 - y1)//7
+step = (y2 - y1)//8
 
 def show_step(img, num: int) -> np.ndarray:
     """
@@ -76,7 +76,7 @@ def show_step(img, num: int) -> np.ndarray:
     :param num: 步数
     :return: 图像
     """
-    if num < 1 or num > 7:
+    if num < 1 or num > 8:
         raise ValueError('num must be in range [1, 7]')
     return img[(num-1)*step: num * step, 0:350]
 
@@ -87,7 +87,7 @@ def push_key(num: int):
     """
     print(num)
     img = get_screenshot()
-    if num < 1 or num > 7:
+    if num < 1 or num > 8:
         raise ValueError('num must be in range [1, 7]')
     show_img = img[y1:y2, 50:x]
     img = show_step(show_img, num)
