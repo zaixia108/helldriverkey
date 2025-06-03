@@ -15,7 +15,7 @@ config.read('config.ini', encoding='utf-8')
 if not config.has_section('main'):
     config.add_section('main')
 if not config.has_option('main', 'screen_index'):
-    config.set('main', 'screen_index', '2')
+    config.set('main', 'screen_index', '1')
 
 screen_index = config.getint('main', 'screen_index')
 
@@ -103,8 +103,6 @@ def push_key(num: int):
         raise ValueError('num must be in range [1, 7]')
     show_img = img[y1:y2, 50:x]
     img = show_step(show_img, num)
-    cv2.imshow('step', img)
-    cv2.waitKey(0)
     result = model.detect(img)
     up = result.get('up', [])
     down = result.get('down', [])
