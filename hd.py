@@ -7,11 +7,23 @@ import numpy as np
 from EasYoloD import easyolo
 import ctypes
 import shutil
+import configparser
+
+
+config = configparser.ConfigParser()
+config.read('config.ini', encoding='utf-8')
+if not config.has_section('main'):
+    config.add_section('main')
+if not config.has_option('main', 'screen_index'):
+    config.set('main', 'screen_index', '2')
+
+screen_index = config.getint('main', 'screen_index')
 
 
 # pyinstaller 打包之后复制模型到外部
 if os.path.exists('_internal'):
     shutil.copy('_internal/hd.onnx', 'hd.onnx')
+
 
 
 easyolo.init('onnxdml', False)
@@ -45,7 +57,7 @@ def key_press(keys):
 
 def get_screenshot():
     with mss.mss() as sct:
-        monitor = sct.monitors[1]  # 使用第一个监视器
+        monitor = sct.monitors[screen_index]  # 使用第一个监视器
         screenshot = sct.grab(monitor)
         img = cv2.cvtColor(np.array(screenshot), cv2.COLOR_BGRA2BGR)
         return img
@@ -91,8 +103,8 @@ def push_key(num: int):
         raise ValueError('num must be in range [1, 7]')
     show_img = img[y1:y2, 50:x]
     img = show_step(show_img, num)
-    # cv2.imshow('step', img)
-    # cv2.waitKey(0)
+    cv2.imshow('step', img)
+    cv2.waitKey(0)
     result = model.detect(img)
     up = result.get('up', [])
     down = result.get('down', [])
