@@ -16,6 +16,7 @@ if not config.has_section('main'):
     config.add_section('main')
 if not config.has_option('main', 'screen_index'):
     config.set('main', 'screen_index', '1')
+config.write(open('config.ini', 'w', encoding='utf-8'))
 
 screen_index = config.getint('main', 'screen_index')
 
